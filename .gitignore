@@ -1,0 +1,44 @@
+# --- Project Specific Inputs & Outputs ---
+decks_to_print.txt
+Output/
+card_images/
+*.pdf
+*.csv
+settings.json
+
+# --- Image Files ---
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# --- Windows ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- IDEs / Editors ---
+.vscode/
+.idea/
+*.swp
