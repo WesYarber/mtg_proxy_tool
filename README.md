@@ -21,8 +21,16 @@ A powerful Python command-line tool for generating high-quality, print-ready PDF
     ```
 
 2.  **Install dependencies:**
+    
+    This project uses `uv` for dependency management. If you don't have `uv` installed, you can install it using pip: `pip install uv` or follow the instructions at [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/).
+
+    Then, simply run the tool using `uv run` (it will automatically install dependencies the first time):
     ```bash
-    pip install -r requirements.txt
+    uv run mtg_proxy_tool.py --help
+    ```
+    Alternatively, to sync dependencies manually:
+    ```bash
+    uv sync
     ```
 
 ## Usage
@@ -31,26 +39,26 @@ A powerful Python command-line tool for generating high-quality, print-ready PDF
 The simplest way to print a single deck.
 
 ```bash
-python mtg_proxy_tool.py --input https://archidekt.com/decks/1234567/my_deck
+uv run mtg_proxy_tool.py --input https://archidekt.com/decks/1234567/my_deck
 ```
 
 **Common Examples:**
 
 * **Smart Formatting (Default):** Separates standard cards from double-faced cards.
     ```bash
-    python mtg_proxy_tool.py --input <URL> --format smart
+    uv run mtg_proxy_tool.py --input <URL> --format smart
     ```
 * **Double-Sided Only:** Generates a single PDF with all cards (fronts and backs interleaved) for duplex printing.
     ```bash
-    python mtg_proxy_tool.py --input <URL> --format double
+    uv run mtg_proxy_tool.py --input <URL> --format double
     ```
 * **Generate Both Formats:** Creates two complete PDFs: one fully single-sided and one fully double-sided.
     ```bash
-    python mtg_proxy_tool.py --input <URL> --format both
+    uv run mtg_proxy_tool.py --input <URL> --format both
     ```
 * **Add Padding:** Adds 1mm spacing between cards (useful for creating "gutters" for rotary cutters).
     ```bash
-    python mtg_proxy_tool.py --input <URL> --padding_mm 1.0
+    uv run mtg_proxy_tool.py --input <URL> --padding_mm 1.0
     ```
 
 ---
@@ -68,7 +76,7 @@ Process multiple decks sequentially. This is ideal for printing an entire gauntl
 
 2.  **Run the script:**
     ```bash
-    python mtg_proxy_tool.py --batch_file decks.txt
+    uv run mtg_proxy_tool.py --batch_file decks.txt
     ```
 
 **Batch "Smart" Feature:**

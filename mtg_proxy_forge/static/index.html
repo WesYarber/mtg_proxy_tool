@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTG Proxy Forge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="background-effects"></div>
+
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-dragon"></i> MTG Proxy Forge</h1>
+            <p class="subtitle">Craft Your Deck. Forge Your Legend.</p>
+        </header>
+
+        <main>
+            <!-- Input Section -->
+            <div class="glass-panel input-section">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('single')">Single URL</button>
+                    <button class="tab-btn" onclick="switchTab('batch')">Batch Mode</button>
+                </div>
+
+                <div id="singleInput" class="input-content">
+                    <div class="input-group">
+                        <label>Archidekt Deck URL</label>
+                        <div class="url-input-wrapper">
+                            <i class="fa-solid fa-link input-icon"></i>
+                            <input type="text" id="deckUrl" placeholder="https://archidekt.com/decks/..."
+                                autocomplete="off">
+                            <button id="previewBtn" onclick="startPreview()" class="btn-input-action"
+                                title="Preview Deck">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="batchInput" class="input-content hidden">
+                    <div class="input-group">
+                        <label>Batch Deck URLs (One per line)</label>
+                        <textarea id="batchUrls"
+                            placeholder="https://archidekt.com/decks/123&#10;https://archidekt.com/decks/456"
+                            rows="5"></textarea>
+                    </div>
+                    <div class="action-bar-right">
+                        <button id="previewBtnBatch" onclick="startPreview()" class="btn-primary">
+                            <i class="fa-solid fa-eye"></i> PREVIEW BATCH
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Grid -->
+            <div class="glass-panel config-section">
+                <h3>Configuration</h3>
+
+                <div class="config-grid">
+                    <div class="config-card selected" onclick="selectFormat(this, 'smart')">
+                        <div class="icon-box"><i class="fa-solid fa-clone"></i></div>
+                        <h4>Smart Format</h4>
+                        <p>Auto-split SFC & DFC</p>
+                    </div>
+                    <div class="config-card" onclick="selectFormat(this, 'double')">
+                        <div class="icon-box"><i class="fa-solid fa-rotate"></i></div>
+                        <h4>Double Sided</h4>
+                        <p>Fronts & Backs</p>
+                    </div>
+                    <div class="config-card" onclick="selectFormat(this, 'single')">
+                        <div class="icon-box"><i class="fa-regular fa-square"></i></div>
+                        <h4>Single Sided</h4>
+                        <p>Fronts Only</p>
+                    </div>
+                </div>
+
+                <div class="controls-row">
+                    <div class="toggle-control">
+                        <label class="switch">
+                            <input type="checkbox" id="includeSideboard">
+                            <span class="slider round"></span>
+                        </label>
+                        <span>Include Sideboard <i class="fa-solid fa-box-open"></i></span>
+                    </div>
+
+                    <div class="toggle-control">
+                        <label class="switch">
+                            <input type="checkbox" id="includeMaybeboard">
+                            <span class="slider round"></span>
+                        </label>
+                        <span>Include Maybeboard <i class="fa-regular fa-lightbulb"></i></span>
+                    </div>
+                </div>
+
+                <!-- Advanced Settings Toggle -->
+                <div class="advanced-toggle" onclick="toggleAdvanced()">
+                    <span>Advanced Settings <i id="advIcon" class="fa-solid fa-chevron-down"></i></span>
+                </div>
+
+                <div id="advancedSettings" class="advanced-panel hidden">
+                    <div class="setting-group">
+                        <label>Padding: <span id="paddingVal">0.0</span>mm</label>
+                        <input type="range" id="paddingSlider" min="0" max="5" step="0.5" value="0.0"
+                            oninput="document.getElementById('paddingVal').innerText = this.value">
+                    </div>
+                    <div class="setting-group">
+                        <label>Cut Line Thickness: <span id="thicknessVal">0.2</span>mm</label>
+                        <input type="range" id="thicknessSlider" min="0.1" max="1.0" step="0.1" value="0.2"
+                            oninput="document.getElementById('thicknessVal').innerText = this.value">
+                    </div>
+                    <div class="setting-group">
+                        <label>Cut Line Color</label>
+                        <input type="color" id="cutColor" value="#000000">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div id="previewSection" class="glass-panel preview-section hidden">
+                <div class="preview-header">
+                    <h3><i class="fa-solid fa-images"></i> Forge Preview</h3>
+                    <button id="forgeBtn" onclick="startForge()" class="btn-primary glow-anim">
+                        <i class="fa-solid fa-hammer"></i> FORGE NOW
+                    </button>
+                </div>
+                <div id="previewContainer" class="preview-container">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+
+            <!-- New Loading Bar Section -->
+            <div id="loadingSection" class="glass-panel loading-section hidden">
+                <div class="loading-wrapper">
+                    <div class="loading-bar-bg">
+                        <div id="loadingFill" class="loading-fill"></div>
+                    </div>
+                    <div id="loadingText" class="loading-text">Initializing...</div>
+                </div>
+            </div>
+
+            <!-- Playful Log (Hidden by default or minimized) -->
+            <div id="consoleSection" class="glass-panel console-section hidden">
+                <div class="console-header">System Log</div>
+                <div id="consoleOutput" class="console-output"></div>
+            </div>
+
+            <!-- Download Section -->
+            <div id="downloadSection" class="glass-panel download-section hidden">
+                <h3><i class="fa-solid fa-check-circle"></i> Forging Complete</h3>
+                <div id="downloadLinks" class="download-links"></div>
+                <button onclick="resetForge()" class="btn-secondary">Forge Another</button>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

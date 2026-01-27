@@ -42,3 +42,9 @@ Desktop.ini
 .vscode/
 .idea/
 *.swp
+.python-version
+
+# --- Packaging ---
+dist/
+build/
+*.spec
