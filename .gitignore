@@ -1,5 +1,6 @@
 # --- Project Specific Inputs & Outputs ---
 decks_to_print.txt
+decklist.txt
 Output/
 card_images/
 *.pdf

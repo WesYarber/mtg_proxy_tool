@@ -1,5 +1,0 @@
-requests
-reportlab
-tqdm
-Pillow
-pypdf
